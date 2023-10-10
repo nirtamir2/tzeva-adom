@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "author": "Nir Tamir",
+  "scripts": {
+    "tauri:build": "pnpm run --filter tauri build",
+    "tauri:dev": "pnpm run --filter tauri dev",
+    "tauri:tauri-dev": "VITE_USE_PRODUCTION_API=true pnpm run --filter tauri tauri-dev",
+    "tauri:tauri-dev-mock": "pnpm run --filter tauri tauri-dev",
+    "tauri:tauri-build": "pnpm run --filter tauri tauri-build",
+    "website:dev": "pnpm run --filter website dev",
+    "website:build": "pnpm run --filter website build",
+    "format": "prettier --write .",
+    "sync-packages": "syncpack fix-mismatches",
+    "type-check": "tsc --noEmit",
+    "type-check-watch": "pnpm type-check --watch",
+    "fmt:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.4",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.1",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "syncpack": "^8.2.4",
+    "typescript": "^5.2.2",
+    "yorkie": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18.17.1",
+    "pnpm": ">=7.0.0"
+  },
+  "packageManager": "pnpm@8.6.2",
+  "gitHooks": {
+    "pre-commit": "prettier --write . && git add -A"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@tzeva-adom/utils",
+  "version": "0.0.1",
+  "exports": "./index",
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "@types/node": "^18.6.4"
+  }
+}

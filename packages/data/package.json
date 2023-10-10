@@ -1,0 +1,11 @@
+{
+  "name": "@tzeva-adom/data",
+  "version": "0.0.1",
+  "exports": "./index",
+  "dependencies": {
+    "@types/node": "^18.6.4",
+    "@tzeva-adom/core": "workspace:*",
+    "axios": "^1.5.1",
+    "typescript": "^5.2.2"
+  }
+}
