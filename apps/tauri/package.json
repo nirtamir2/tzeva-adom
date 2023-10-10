@@ -1,0 +1,38 @@
+{
+  "name": "tauri",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev-prod-api": "VITE_USE_PRODUCTION_API=true vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "tauri-dev": "tauri dev",
+    "tauri-build": "tauri build"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@tauri-apps/api": "^1.5.0",
+    "@tzeva-adom/app": "workspace:*",
+    "@tzeva-adom/core": "workspace:*",
+    "@tzeva-adom/data": "workspace:*",
+    "@tzeva-adom/ui-core": "workspace:*",
+    "@tzeva-adom/utils": "workspace:*",
+    "axios": "^1.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tauri-plugin-positioner-api": "^0.2.7",
+    "tauri-xhr": "^0.1.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.2",
+    "@types/react": "^18.2.27",
+    "@types/react-dom": "^18.2.12",
+    "@vitejs/plugin-react": "^4.1.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11"
+  }
+}

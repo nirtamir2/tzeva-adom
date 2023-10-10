@@ -1,0 +1,5 @@
+{
+  "name": "@tzeva-adom/core",
+  "version": "0.0.1",
+  "exports": "./index"
+}
