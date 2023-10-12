@@ -1,16 +1,19 @@
 import { css, Global } from "@emotion/react";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LogoPikudHaoref } from "./LogoPikudHaoref";
 import { isString } from "@/data";
 import { fetchAlerts, RealPikudHaorefAPIAlertResponse } from "@/fetchAlerts";
 import {
   QueryClient,
   QueryClientProvider,
+  useMutation,
   useQuery,
   UseQueryResult
 } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
+import { getCurrent, LogicalSize } from "@tauri-apps/api/window";
+import { usePrevious } from "react-use";
 
 const ICON_SIZE = 40;
 
@@ -54,6 +57,7 @@ const styles = {
     overflow: hidden;
     white-space: nowrap;
     text-wrap: avoid;
+    user-select: none;
 
     font-size: var(--text-size);
     font-weight: 500;
@@ -80,6 +84,7 @@ const styles = {
   `,
 
   listItemText: css`
+    user-select: none;
     font-weight: bold;
     font-size: var(--text-size);
     text-shadow: 1px 1px var(--black);
@@ -116,7 +121,7 @@ const styles = {
 const cssVariables = css`
   :root {
     --white: #ffffff;
-    --black: #000000;
+    --black: #0000;
     --orange1: #f67100;
     --orange2: #f79b00;
     --orange-border: #f67100;
@@ -133,7 +138,7 @@ const cssVariables = css`
     --gutter8: 8px;
     --gutter16: 16px;
 
-    --max-z-index: 100000;
+    --max-z-index: 10000;
   }
 `;
 
@@ -277,12 +282,64 @@ function InnerApp(props: IProps) {
   const alertsQuery = useQuery({
     queryFn: fetchAlerts,
     queryKey: ["alerts"],
-    refetchInterval: 1000,
+    refetchInterval: 1000
   });
 
   const hasNoAlerts =
     alertsQuery.isPending ||
     (alertsQuery.isSuccess && isString(alertsQuery.data));
+
+  const headerSize = 52;
+  const alerttCount =
+    alertsQuery.isSuccess && !isString(alertsQuery.data)
+      ? alertsQuery.data.data.length
+      : 0;
+
+  const height =
+    32 +
+    (hideHeaderWhenNoAlerts && hasNoAlerts ? 0 : headerSize + alerttCount * 29);
+
+  const [myHeight, setMyHeight] = useState(600);
+
+  const heightMutation = useMutation({
+    mutationFn: async (params: { height: number }) => {
+      const stateHeight = params.height;
+
+      const isIncreaseHeight = stateHeight > myHeight;
+      if (isIncreaseHeight) {
+        const window = getCurrent();
+        const newHeight = stateHeight;
+        setMyHeight(newHeight);
+        await window.setSize(new LogicalSize(230, newHeight));
+        return;
+      }
+
+      // No changes
+      if (stateHeight === myHeight) {
+        return;
+      }
+
+      const waitDelay = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(null);
+        }, 1200);
+      });
+      await waitDelay;
+
+      const window = getCurrent();
+      const newHeight = Math.max(stateHeight, heightRef.current);
+      setMyHeight(newHeight);
+      await window.setSize(new LogicalSize(230, newHeight));
+    }
+  });
+
+  useEffect(() => {
+    heightMutation.mutate({ height });
+  }, [height]);
+
+  const heightRef = useRef(height);
+  heightRef.current = height;
+
   /* Don't show popup injected into the page if no alerts or if loading */
   if (hideHeaderWhenNoAlerts && hasNoAlerts) {
     return null;
@@ -302,6 +359,9 @@ function InnerApp(props: IProps) {
       transition={{ duration: 1 }}
     >
       <div css={styles.container}>
+        <div css={{ color: "red" }}>
+          my-resize: {myHeight} min: {height}
+        </div>
         <PikudHaorefHeader additionalTitle={additionalTitle} />
         <AlertsContent alertsQuery={alertsQuery} />
       </div>

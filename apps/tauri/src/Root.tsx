@@ -28,7 +28,9 @@ export function Root(): React.ReactElement {
   }, []);
 
   return (
-    <div>
+    <div css={{
+      background: "red"
+    }}>
       <App hideHeaderWhenNoAlerts={false} />
     </div>
   );
