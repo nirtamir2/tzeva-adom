@@ -108,11 +108,17 @@ const styles = {
     );
   `,
 
-  emptyStateText: css`
+  stateText: css`
     padding: 0 var(--gutter4);
     font-size: var(--text-size);
     font-weight: bold;
     color: var(--white);
+  `,
+  errorText: css`
+    padding: 0 var(--gutter4);
+    font-size: var(--text-size);
+    font-weight: bold;
+    color: var(--orange1);
   `
 };
 
@@ -188,12 +194,12 @@ function AlertsContent(props: {
     return (
       <motion.div
         key="check-alerts"
-        css={styles.emptyStateText}
+        css={styles.stateText}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        בודק אחר התרעות...
+        בודק התרעות...
       </motion.div>
     );
   }
@@ -201,13 +207,21 @@ function AlertsContent(props: {
   if (alertsQuery.isError) {
     if (isAxiosError(alertsQuery.error)) {
       if (alertsQuery.error.status === 403) {
-        return <div>שגיאה 403: אין לך הרשאה לפנות לפיקוד העורף</div>;
+        return (
+          <div css={styles.errorText}>
+            שגיאה 403: אין לך הרשאה לפנות לפיקוד העורף
+          </div>
+        );
       }
       if (alertsQuery.error.cause) {
-        return <div>שגיאה כללית {alertsQuery.error.cause.message}</div>;
+        return (
+          <div css={styles.errorText}>
+            שגיאה כללית {alertsQuery.error.cause.message}
+          </div>
+        );
       }
     }
-    return <div>בדוק את החיבור לאינטרנט</div>;
+    return <div css={styles.errorText}>שגיאת רשת</div>;
   }
 
   if (isString(alertsQuery.data)) {
@@ -217,7 +231,7 @@ function AlertsContent(props: {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        css={styles.emptyStateText}
+        css={styles.stateText}
       >
         אין התרעות
       </motion.div>
@@ -277,13 +291,15 @@ function AlertsContent(props: {
 const headerSize = 52;
 const alertHeight = 29;
 const paddingHeight = 32;
+
+const refetchInterval = 1000;
 function InnerApp(props: IProps) {
   const { hideHeaderWhenNoAlerts } = props;
 
   const alertsQuery = useQuery({
     queryFn: fetchAlerts,
     queryKey: ["alerts"],
-    refetchInterval: 1000
+    refetchInterval
   });
 
   const hasNoAlerts =
@@ -297,6 +313,7 @@ function InnerApp(props: IProps) {
 
   const height =
     paddingHeight +
+    (alertsQuery.isError ? 48 : 0) +
     (hideHeaderWhenNoAlerts && hasNoAlerts
       ? 0
       : headerSize + alertsCount * alertHeight);
