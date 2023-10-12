@@ -1,4 +1,4 @@
-import { MessageT, MessageType } from "@tzeva-adom/core";
+import { MessageT, MessageType } from "@/core";
 import { areaDataMap } from "./areaDataMap";
 import axios, { isAxiosError } from "axios";
 
@@ -98,7 +98,7 @@ const prodApiConfig = {
   }
 };
 
-function isString(value: unknown): value is string {
+export function isString(value: unknown): value is string {
   return typeof value === "string" || value instanceof String;
 }
 

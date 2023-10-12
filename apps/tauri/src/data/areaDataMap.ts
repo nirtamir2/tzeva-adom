@@ -1,4 +1,4 @@
-import { IAreaDetails } from "@tzeva-adom/core";
+import { IAreaDetails } from "@/core";
 
 export const areaDataMap: Record<string, IAreaDetails> = {
   "אבו סנאן": {
