@@ -1,4 +1,4 @@
-import { App } from "@/app";
+import { App } from "@/app/App";
 import React, { useEffect } from "react";
 import { window as tauriWindow } from "@tauri-apps/api";
 import { move_window, Position } from "tauri-plugin-positioner-api";
