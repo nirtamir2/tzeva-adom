@@ -13,7 +13,7 @@ edition = "2021"
 tauri-build = { version = "1.5", features = [] }
 
 [dependencies]
-tauri = { version = "1.5", features = [ "http-all", "window-start-dragging", "macos-private-api", "shell-open"] }
+tauri = { version = "1.5", features = [ "updater", "http-all", "window-start-dragging", "macos-private-api", "shell-open"] }
 serde = { version = "1.0", features = ["derive"] }
 tauri-plugin-positioner = { version = "1.0.4", features = ["system-tray"] }
 serde_json = "1.0"
