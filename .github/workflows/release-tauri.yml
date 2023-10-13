@@ -1,8 +1,10 @@
-name: 'publish'
+name: "publish"
 on:
   push:
+    paths:
+      - "apps/tauri/**"
     branches:
-      - release
+      - main
 
 jobs:
   publish-tauri:
@@ -56,8 +58,7 @@ jobs:
         with:
           tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
           projectPath: "./apps/tauri"
-          releaseName: 'App v__VERSION__'
-          releaseBody: 'See the assets to download this version and install.'
+          releaseName: "App v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
           releaseDraft: true
           prerelease: false
-
