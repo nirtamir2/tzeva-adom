@@ -1,6 +1,46 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+
+interface ReleasesResponse {
+  "version": string,
+  "notes": string,
+  "pub_date": string,
+  "platforms": {
+    "darwin-x86_64": {
+      "signature": string,
+      "url": string
+    },
+    "darwin-aarch64": {
+      "signature": string,
+      "url": string
+    },
+    "linux-x86_64": {
+      "signature": "string",
+      "url": string
+    },
+    "windows-x86_64": {
+      "signature": "string",
+      "url": string
+    },
+    "win64": {
+      "signature": "string",
+      "url": string
+    },
+    "linux": {
+      "signature": "string",
+      "url": string
+    },
+    "darwin": {
+      "signature": string,
+      "url": string
+    }
+  }
+}
+
+const releasesResponse = await fetch("https://gist.github.com/nirtamir2/f9fd2e3e5d683bad411a5cf4d94dcf7c/raw/tzeva-adom.releases.json");
+const releases: ReleasesResponse = await releasesResponse.json();
+
 ---
 
 
@@ -52,18 +92,15 @@ import Card from "../components/Card.astro";
       <img src="/assets/demo-mock-data.gif" height="188" width="222" alt="דמו של האפליקציה"/>
     </div>
     <ul role="list" class="link-card-grid">
-      <Card
-        href="https://github.com/nirtamir2/tzeva-adom/releases/latest"
-        title="הורדה"
-        body="הורדה דרך GitHub"
-      />
-      <Card
-        href="https://github.com/nirtamir2/tzeva-adom"
-        title="GitHub"
-        body="קישור לקוד המקור"
-      />
-    </ul>
 
+      {releases.platforms != null ? <>
+        <Card download iconName="simple-icons:windows" title="Windows" href={releases.platforms.win64.url}/>
+        <Card download iconName="simple-icons:macos" title="macOS" href={releases.platforms.darwin.url}/>
+        <Card download iconName="simple-icons:linux" title="Linux" href={releases.platforms.linux.url}/>
+        </> : null}
+      <Card iconName="ic:sharp-cloud-download" title="פלטפורמות נוספות" href="https://github.com/nirtamir2/tzeva-adom/releases/latest"/>
+      <Card iconName="simple-icons:github" title="Github" href="https://github.com/nirtamir2/tzeva-adom"/>
+    </ul>
 
   </main>
 </Layout>

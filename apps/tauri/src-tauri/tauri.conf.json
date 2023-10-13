@@ -1,4 +1,5 @@
 {
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "cross-env VITE_USE_PRODUCTION_API=true NODE_ENV=production pnpm build",
@@ -73,6 +74,16 @@
         "title": "Tzeva Adom",
         "width": 230
       }
-    ]
+    ],
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://gist.github.com/nirtamir2/f9fd2e3e5d683bad411a5cf4d94dcf7c",
+        "https://gist.github.com/nirtamir2/f9fd2e3e5d683bad411a5cf4d94dcf7c/raw/tzeva-adom.releases.json",
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDkwMzJCQzVDQjMzRDEzQ0QKUldUTkV6MnpYTHd5a0xOUGpURGFmN2NBQ0VVOHFkWnFRcnc2L0RoSStKVEZPRFV5ejdEeHcxYnUK"
+    }
+  }
   }
 }

@@ -1,22 +1,33 @@
 ---
-interface Props {
-	title: string;
-	body: string;
-	href: string;
-}
+import { Icon } from 'astro-icon'
 
-const { href, title, body } = Astro.props;
+interface Props {
+	iconName: string
+	title: string
+	download?: boolean
+	href: string
+}
+const { iconName, title, download, href } = Astro.props;
 
 ---
+<script>
+	const links = document.querySelectorAll('a [data-download-link]');
+	links.forEach((link) => {
+		link.addEventListener('click', () => {
+			window.gtag('event', 'file_download', {
+				'event_category' : 'send-to',
+				'event_label' : href,
+
+			})
+		});
+	});
+</script>
 <li class="link-card">
-	<a href={href}>
+	<a href={href} download={download} data-download-link>
 		<h2>
-			{title}
-			<span>&larr;</span>
+			<Icon height={24} name={iconName}/>
 		</h2>
-		<p>
-			{body}
-		</p>
+		<p>{title}</p>
 	</a>
 </li>
 <style>
