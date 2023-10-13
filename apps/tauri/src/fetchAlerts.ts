@@ -105,6 +105,7 @@ export async function fetchAlerts(): Promise<
 
     return responseData;
   }
+  await new Promise((resolve) => setTimeout(resolve, 500));
   switch (Date.now() % 6) {
     case 0:
       return generateRocketMock([
