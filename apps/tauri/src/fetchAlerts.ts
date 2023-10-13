@@ -1,5 +1,4 @@
 import axios from "axios";
-import { MessageType } from "@/core";
 
 const prodApiConfig = {
   // The response type is "" (for no alerts) or alerts json, so if "" we don't want to fail
@@ -106,7 +105,7 @@ export async function fetchAlerts(): Promise<
 
     return responseData;
   }
-  switch (Date.now() % 3) {
+  switch (Date.now() % 6) {
     case 0:
       return generateRocketMock([
         "זיקים",
@@ -139,6 +138,15 @@ export async function fetchAlerts(): Promise<
         "כרם שלום",
         "ראשון לציון - מערב"
       ]);
+    case 5: {
+      return {
+        id: "1332847688900000001",
+        cat: "2", //fake category
+        title: "חדירת כלי טיס",
+        data: ["יד מרדכי"],
+        desc: "היכנסו למרחב המוגן ושהו בו 10 דקות"
+      };
+    }
     default:
       return "\n";
   }

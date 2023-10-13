@@ -1,4 +1,16 @@
-import { IAreaDetails } from "@/core";
+interface IAreaDetails {
+  name: string;
+  name_en: string;
+  zone: string;
+  zone_en: string;
+  time: string;
+  time_en: string;
+  countdown: number;
+  lat: number;
+  lng: number;
+  value: string;
+  shelters?: number;
+}
 
 export const areaDataMap: Record<string, IAreaDetails> = {
   "אבו סנאן": {

@@ -2,7 +2,6 @@ import { css, Global } from "@emotion/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { LogoPikudHaoref } from "./LogoPikudHaoref";
-import { isString } from "@/data";
 import { fetchAlerts, RealPikudHaorefAPIAlertResponse } from "@/fetchAlerts";
 import {
   QueryClient,
@@ -12,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useResizeWindowHeight } from "@/hooks/ueResizeWindowHeight";
+import { isString } from "@/utils/isString";
 
 const ICON_SIZE = 40;
 
@@ -61,6 +61,15 @@ const styles = {
     font-weight: 500;
     letter-spacing: -0.5px;
     transform: scaleY(1.25);
+  `,
+  additionalTitle: css`
+    overflow: hidden;
+    white-space: nowrap;
+    text-wrap: avoid;
+    user-select: none;
+    padding-top: var(--gutter4);
+    font-weight: 500;
+    font-size: var(--text-size-sm);
   `,
 
   imgContainer: css`
@@ -136,6 +145,7 @@ const cssVariables = css`
     --border-radius-round: 100rem;
 
     --text-size: 16px;
+    --text-size-sm: 14px;
 
     --gutter1: 1px;
     --gutter4: 4px;
@@ -179,7 +189,9 @@ function PikudHaorefHeader(props: { additionalTitle: string | null }) {
         css={styles.titleContainer}
       >
         <div css={styles.title}>התרעות פיקוד העורף</div>
-        {additionalTitle}
+        {additionalTitle == null ? null : (
+          <div css={styles.additionalTitle}>{additionalTitle}</div>
+        )}
       </motion.h1>
     </motion.header>
   );
@@ -299,7 +311,8 @@ function InnerApp(props: IProps) {
   const alertsQuery = useQuery({
     queryFn: fetchAlerts,
     queryKey: ["alerts"],
-    refetchInterval
+    refetchInterval,
+    refetchIntervalInBackground: true
   });
 
   const hasNoAlerts =
