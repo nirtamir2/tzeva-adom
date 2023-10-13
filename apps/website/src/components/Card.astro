@@ -3,14 +3,13 @@ interface Props {
 	title: string;
 	body: string;
 	href: string;
-	download?: string;
 }
 
-const { href, title, download, body } = Astro.props;
+const { href, title, body } = Astro.props;
 
 ---
 <li class="link-card">
-	<a href={href} data-download-link download={download}>
+	<a href={href}>
 		<h2>
 			{title}
 			<span>&larr;</span>
@@ -20,17 +19,6 @@ const { href, title, download, body } = Astro.props;
 		</p>
 	</a>
 </li>
-<script>
-	const links = document.querySelectorAll('a [data-download-link]');
-	links.forEach((link) => {
-		link.addEventListener('click', () => {
-			window.gtag('event', 'file_download', {
-				'event_category' : 'send-to',
-				'event_label' : href
-			})
-		});
-	});
-</script>
 <style>
 	.link-card {
 		list-style: none;
