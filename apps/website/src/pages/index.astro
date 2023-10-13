@@ -40,7 +40,6 @@ interface ReleasesResponse {
 
 const releasesResponse = await fetch("https://gist.github.com/nirtamir2/f9fd2e3e5d683bad411a5cf4d94dcf7c/raw/tzeva-adom.releases.json");
 const releases: ReleasesResponse = await releasesResponse.json();
-
 ---
 
 
@@ -80,27 +79,36 @@ const releases: ReleasesResponse = await releasesResponse.json();
     </p>
     <p>
       לא חייב להיות כל היום מול מסך הטלוויזיה...
-      הצגת התרעות צבע אדום כמו בטלוויזיה - גם על מסך המחשב שלך!
     </p>
-    <p>זאת <strong>אינה</strong> אפליקציה רשמית. היא עובדת על ידי כך שהיא פונה לאתר של פיקוד העורף כל שנייה כדי לדעת האם
+    <p> הצגת התרעות צבע אדום כמו בטלוויזיה - גם על מסך המחשב שלך!
+    </p>
+    <div class="demo-image">
+      <img src="/assets/demo-mock-data.gif" height="188" width="222" alt="דמו של האפליקציה" />
+    </div>
+    <h3>הורדות</h3>
+    <ul role="list" class="link-card-grid">
+
+      {releases.platforms != null ?
+        <>
+          <Card download iconName="simple-icons:windows" title="Windows" href={releases.platforms.win64.url} />
+          <Card download iconName="simple-icons:macos" title="macOS" href={releases.platforms.darwin.url} />
+          <Card download iconName="simple-icons:linux" title="Linux" href={releases.platforms.linux.url} />
+        </> : null}
+      <Card iconName="ic:sharp-cloud-download" title="פלטפורמות נוספות"
+            href="https://github.com/nirtamir2/tzeva-adom/releases/latest" />
+      <Card iconName="simple-icons:github" title="קוד המקור בGitHub" href="https://github.com/nirtamir2/tzeva-adom" />
+    </ul>
+
+    <h3>פרטים נוספים</h3>
+
+    <p>זאת <strong>אינה</strong> אפליקציה רשמית.
+    </p>
+    <p>
+      היא עובדת על ידי כך שהיא פונה לאתר של פיקוד העורף כל שנייה כדי לדעת האם
       יש התרעות של צבע אדום
       ומציגה אותם בהתאם
     </p>
     <p>כרגע האפליקציה רק מציגה את ההתראות בזמן אמת, בלי להשמיע צליל</p>
-    <h3>דמו</h3>
-    <div class="demo-image">
-      <img src="/assets/demo-mock-data.gif" height="188" width="222" alt="דמו של האפליקציה"/>
-    </div>
-    <ul role="list" class="link-card-grid">
-
-      {releases.platforms != null ? <>
-        <Card download iconName="simple-icons:windows" title="Windows" href={releases.platforms.win64.url}/>
-        <Card download iconName="simple-icons:macos" title="macOS" href={releases.platforms.darwin.url}/>
-        <Card download iconName="simple-icons:linux" title="Linux" href={releases.platforms.linux.url}/>
-        </> : null}
-      <Card iconName="ic:sharp-cloud-download" title="פלטפורמות נוספות" href="https://github.com/nirtamir2/tzeva-adom/releases/latest"/>
-      <Card iconName="simple-icons:github" title="Github" href="https://github.com/nirtamir2/tzeva-adom"/>
-    </ul>
 
   </main>
 </Layout>
@@ -117,6 +125,7 @@ const releases: ReleasesResponse = await releasesResponse.json();
     }
 
     .demo-image {
+        padding: 2rem 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -174,5 +183,10 @@ const releases: ReleasesResponse = await releasesResponse.json();
         grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
         gap: 2rem;
         padding: 0;
+    }
+
+    p {
+        margin: 0;
+        text-wrap: balance;
     }
 </style>
